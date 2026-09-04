@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星语首页</title>
+    <title>星语 - 探索星空奥秘，寻觅契合灵魂</title>
+    
+    <link rel="icon" type="image/png" href="网站Logo128.png">
+
     <style>
         /* 基础重置 */
         * {
@@ -136,12 +139,12 @@
         }
 
         /* --------------------------------------------------
-           Hero Banner（背景刚好延伸至图片最下方）
+           Hero Banner
         -------------------------------------------------- */
         .home-banner-container {
             margin-top: 70px;
             padding-top: 60px;
-            padding-bottom: 0; /* 依靠内容高度自然贴合到图片底边 */
+            padding-bottom: 0;
             background: linear-gradient(135deg, #f3eafb 0%, #e8d9f5 50%, #ffffff 100%);
             display: flex;
             justify-content: center;
@@ -174,7 +177,7 @@
             flex: 1.2;
             display: flex;
             flex-direction: column;
-            padding-bottom: 60px; /* 控制文字区域底部留白，使右侧居中统调 */
+            padding-bottom: 60px;
         }
         .home-banner-info-title {
             font-size: 38px;
@@ -270,7 +273,7 @@
         }
 
         /* --------------------------------------------------
-           产品与服务（适配方形大图排版）
+           产品与服务
         -------------------------------------------------- */
         .home-product-container {
             max-width: 1200px;
@@ -340,7 +343,7 @@
         .home-product-item-img img {
             width: 100%;
             max-width: 460px;
-            aspect-ratio: 1 / 1; /* 约束图片展示比例，贴合大方形图 */
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
@@ -535,22 +538,22 @@
 </head>
 <body>
 
-    <div data-v-c786f67c="" class="home-header-container">
-        <div data-v-c786f67c="" class="home-header">
+    <div class="home-header-container">
+        <div class="home-header">
             <a href="#hero" class="home-logo">
-                <img data-v-c786f67c="" src="https://meetsummer.cn/wp-content/uploads/%E7%BD%91%E7%AB%99Logo128.png" alt="星语 logo">
+                <img src="网站Logo128.png" alt="星语 logo">
                 <span class="home-logo-text">星语</span>
             </a>
-            <div data-v-c786f67c="" class="home-nav">
-                <ul data-v-c786f67c="">
-                    <li data-v-c786f67c="" class="active"><a href="#hero">首页</a></li>
-                    <li data-v-c786f67c=""><a href="#showcase">产品介绍</a></li>
-                    <li data-v-c786f67c=""><a href="#aboutUs">关于我们</a></li>
-                    <li data-v-c786f67c=""><a href="#contactUs">联系我们</a></li>
+            <div class="home-nav">
+                <ul>
+                    <li class="active"><a href="#hero">首页</a></li>
+                    <li><a href="#showcase">产品介绍</a></li>
+                    <li><a href="#aboutUs">关于我们</a></li>
+                    <li><a href="#contactUs">联系我们</a></li>
                 </ul>
-                <a data-v-c786f67c="" href="#" class="web">
-                    <img data-v-c786f67c="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVShortcutKey" alt="网页版">
-                    <span data-v-c786f67c="">网页版</span>
+                <a href="#" class="web">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVShortcutKey" alt="网页版">
+                    <span>网页版</span>
                 </a>
             </div>
         </div>
@@ -559,7 +562,7 @@
     <div class="home-banner-container" id="hero">
         <div class="home-banner">
             <div class="home-banner-phone">
-                <img src="file:///D:/Desktop/e7c866c6-b794-4f70-a789-7a4b68287f40.png" alt="星语 App Hero">
+                <img src="e7c866c6-b794-4f70-a789-7a4b68287f40.png" alt="星语 App Hero">
             </div>
             <div class="home-banner-info">
                 <span class="home-banner-info-title">星语-探索星空奥秘，寻觅契合灵魂</span>
@@ -596,7 +599,7 @@
                     <span>深度分析个人本命盘、太阳/月亮/上升星座，揭示潜在性格特质与感情走向，开启探索自我的宇宙之旅。</span>
                 </div>
                 <div class="home-product-item-img">
-                    <img src="file:///D:/Desktop/466ccc81-239e-43e2-983e-75f9864069e3.jpg" alt="星盘解读">
+                    <img src="466ccc81-239e-43e2-983e-75f9864069e3.jpg" alt="星盘解读">
                 </div>
             </div>
             <div class="home-product-item reverse">
@@ -605,7 +608,7 @@
                     <span>告别盲目匹配，基于星盘合盘算法与相合相位，智能推荐最契合的星友与灵魂伴侣，开启极具共鸣的对话。</span>
                 </div>
                 <div class="home-product-item-img">
-                    <img src="file:///D:/Desktop/d5df0a17-12c3-4d44-8af0-5c76198afd16.jpg" alt="星座交友圈">
+                    <img src="d5df0a17-12c3-4d44-8af0-5c76198afd16.jpg" alt="星座交友圈">
                 </div>
             </div>
             <div class="home-product-item">
@@ -614,7 +617,7 @@
                     <span>支持文字、语音与星盘实时互照等交互形式，瞬间拉近两颗星球的距离，让深层次沟通跨越星际无界畅达。</span>
                 </div>
                 <div class="home-product-item-img">
-                    <img src="file:///D:/Desktop/dbf99af7-4693-4f8f-9a8d-d7df58ac7fa4.jpg" alt="星语心愿">
+                    <img src="dbf99af7-4693-4f8f-9a8d-d7df58ac7fa4.jpg" alt="星语心愿">
                 </div>
             </div>
             <div class="home-product-item reverse">
@@ -623,7 +626,7 @@
                     <span>分享今日运势、星象变动与心动瞬间——让每一个星象话题都成为交流灵感，用璀璨星空记录浪漫日常。</span>
                 </div>
                 <div class="home-product-item-img">
-                    <img src="file:///D:/Desktop/91497154-1883-4232-8744-f9262bca0531.jpg" alt="运势广场">
+                    <img src="91497154-1883-4232-8744-f9262bca0531.jpg" alt="运势广场">
                 </div>
             </div>
         </div>
@@ -687,7 +690,7 @@
                 <img src="https://sychat.cn/assets/png/contact_1-BpNyRem3.png" alt="客服邮箱">
                 <div class="home-contact-item-box">
                     <span>客服邮箱</span>
-                    <span>jxxy_app@163.com</span>
+                    <span>jxsy_app@163.com</span>
                 </div>
             </div>
             <div class="home-contact-item">
@@ -701,7 +704,7 @@
                 <img src="https://sychat.cn/assets/png/contact_3-Bm80-1vt.png" alt="官网网站">
                 <div class="home-contact-item-box">
                     <span>官网网站</span>
-                    <span>www.xychat.cn</span>
+                    <span>www.sychat.cn</span>
                 </div>
             </div>
         </div>
@@ -712,18 +715,18 @@
         </div>
     </section>
 
-    <div class="home-footer-container" data-v-c786f67c="">
-        <div class="home-footer" data-v-c786f67c="">
-            <div class="home-footer-copyright" data-v-c786f67c="">
-                <span data-v-c786f67c="">Copyright 2026 xychat.cn All Rights Reserved</span>
-                <span data-v-c786f67c="">江西星语科技有限公司</span>
+    <div class="home-footer-container">
+        <div class="home-footer">
+            <div class="home-footer-copyright">
+                <span>Copyright 2026 sychat.cn All Rights Reserved</span>
+                <span>江西星语科技有限公司</span>
             </div>
-            <div class="home-footer-agreement" data-v-c786f67c="">
-                <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank" data-v-c786f67c="">赣ICP备2026008197号</a>
-                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=36080202000519" rel="noreferrer" target="_blank" data-v-c786f67c="">赣公网安备36080208000419号</a>
-                <a href="agreement.html" target="_blank" data-v-c786f67c="">用户协议</a>
-                <span data-v-c786f67c="">|</span>
-                <a href="privacy.html" target="_blank" data-v-c786f67c="">隐私政策</a>
+            <div class="home-footer-agreement">
+                <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">赣ICP备2026004197号</a>
+                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=36080202000519" rel="noreferrer" target="_blank">赣公网安备36080202000519号</a>
+                <a href="agreement.html" target="_blank">用户协议</a>
+                <span>|</span>
+                <a href="privacy.html" target="_blank">隐私政策</a>
             </div>
         </div>
     </div>
