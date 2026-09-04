@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星语首页</title>
+    <style>
+        /* 基础重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --------------------------------------------------
+           顶部导航
+        -------------------------------------------------- */
+        .home-header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(57, 28, 82, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+        .home-header {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .home-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .home-logo img {
+            height: 38px;
+            object-fit: contain;
+        }
+        .home-logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: #391c52;
+            letter-spacing: 1px;
+        }
+        .home-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .home-nav ul {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .home-nav ul li a {
+            font-size: 16px;
+            color: #555;
+            transition: color 0.3s;
+            position: relative;
+            padding: 8px 0;
+            display: block;
+        }
+        .home-nav ul li.active a, 
+        .home-nav ul li a:hover {
+            color: #391c52;
+            font-weight: 600;
+        }
+        .home-nav ul li.active a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #391c52;
+            border-radius: 2px;
+        }
+        .home-nav .web {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #512874 0%, #391c52 100%);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(57, 28, 82, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .home-nav .web:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(57, 28, 82, 0.35);
+        }
+        .home-nav .web img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* 布局容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .section {
+            padding: 80px 0;
+        }
+
+        /* --------------------------------------------------
+           Hero Banner（背景刚好延伸至图片最下方）
+        -------------------------------------------------- */
+        .home-banner-container {
+            margin-top: 70px;
+            padding-top: 60px;
+            padding-bottom: 0; /* 依靠内容高度自然贴合到图片底边 */
+            background: linear-gradient(135deg, #f3eafb 0%, #e8d9f5 50%, #ffffff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .home-banner {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+        .home-banner-phone {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .home-banner-phone img {
+            max-width: 440px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px 12px 0 0;
+            display: block;
+        }
+        .home-banner-info {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 60px; /* 控制文字区域底部留白，使右侧居中统调 */
+        }
+        .home-banner-info-title {
+            font-size: 38px;
+            font-weight: bold;
+            color: #391c52;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        .home-banner-info-subTitle {
+            font-size: 18px;
+            color: #595959;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+        .home-banner-info-method {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .home-banner-info-method-download {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .home-banner-info-method-download-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #391c52;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(57, 28, 82, 0.3);
+            transition: all 0.2s ease;
+        }
+        .home-banner-info-method-download-box:hover {
+            background: #28123c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(57, 28, 82, 0.4);
+        }
+        .home-banner-info-method-download-box.iphone {
+            background: #230f35;
+        }
+        .home-banner-info-method-download-box.iphone:hover {
+            background: #150821;
+        }
+        .home-banner-info-method-download-box img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        .home-banner-info-method-code {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #391c52;
+            font-weight: 500;
+        }
+        .home-banner-info-method-code img {
+            width: 96px;
+            height: 96px;
+            background: #fff;
+            border: 2px solid #e8d9f5;
+            border-radius: 8px;
+            padding: 4px;
+            object-fit: contain;
+        }
+
+        /* 标题通用样式 */
+        .title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        .title-container .title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #391c52;
+            margin-bottom: 10px;
+        }
+        .title-container .sub-title {
+            font-size: 16px;
+            color: #8c8c8c;
+        }
+
+        /* --------------------------------------------------
+           产品与服务（适配方形大图排版）
+        -------------------------------------------------- */
+        .home-product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        .home-product {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+        .home-product-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #f3eafb;
+            box-shadow: 0 4px 20px rgba(57, 28, 82, 0.04);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .home-product-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(57, 28, 82, 0.08);
+        }
+        .home-product-item.reverse {
+            flex-direction: row-reverse;
+        }
+        .home-product-item-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+            padding: 0 20px;
+        }
+        .home-product-item-text .title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #391c52;
+            position: relative;
+            padding-left: 16px;
+        }
+        .home-product-item-text .title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 15%;
+            bottom: 15%;
+            width: 4px;
+            background-color: #391c52;
+            border-radius: 2px;
+        }
+        .home-product-item-text span:not(.title) {
+            font-size: 16px;
+            color: #595959;
+            line-height: 1.8;
+        }
+        .home-product-item-img {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .home-product-item-img img {
+            width: 100%;
+            max-width: 460px;
+            aspect-ratio: 1 / 1; /* 约束图片展示比例，贴合大方形图 */
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 关于我们 */
+        .about-content p {
+            font-size: 16px;
+            color: #595959;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+        .about-sub-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 30px 0 15px 0;
+            color: #391c52;
+        }
+
+        /* 企业文化 */
+        .home-culture {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .home-culture-item-box {
+            background: #fff;
+            padding: 30px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(57, 28, 82, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #f3eafb;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .home-culture-item-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(57, 28, 82, 0.12);
+        }
+        .home-culture-item-box img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .home-culture-item-box-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .home-culture-item-box-text span:first-child {
+            font-size: 20px;
+            font-weight: bold;
+            color: #391c52;
+        }
+        .home-culture-item-box-text span:last-child {
+            font-size: 14px;
+            color: #8c8c8c;
+            line-height: 1.4;
+        }
+
+        /* 联系我们 */
+        .home-contact {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+        .home-contact-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .home-contact-item img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            margin-bottom: -32px;
+        }
+        .home-contact-item-box {
+            background: #fff;
+            width: 100%;
+            padding: 48px 20px 24px 20px;
+            border-radius: 12px;
+            border: 1px solid #f3eafb;
+            box-shadow: 0 4px 20px rgba(57, 28, 82, 0.06);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .home-contact-item-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(57, 28, 82, 0.12);
+        }
+        .home-contact-item-box span:first-child {
+            font-size: 14px;
+            color: #8c8c8c;
+        }
+        .home-contact-item-box span:last-child {
+            font-size: 16px;
+            font-weight: bold;
+            color: #391c52;
+        }
+
+        .address-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #f3eafb;
+            box-shadow: 0 4px 20px rgba(57, 28, 82, 0.06);
+        }
+        .address-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #391c52;
+            margin-bottom: 15px;
+        }
+        .address-map-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e8d9f5;
+        }
+
+        /* --------------------------------------------------
+           页脚
+        -------------------------------------------------- */
+        .home-footer-container {
+            background: #230f35;
+            padding: 30px 20px;
+            color: #ffffff;
+        }
+        .home-footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+        .home-footer-copyright {
+            display: flex;
+            gap: 16px;
+            color: #ffffff;
+        }
+        .home-footer-copyright span {
+            color: #ffffff;
+        }
+        .home-footer-agreement {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+        }
+        .home-footer-agreement a {
+            color: #ffffff;
+            transition: opacity 0.2s;
+        }
+        .home-footer-agreement a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        .home-footer-agreement span {
+            color: #ffffff;
+            opacity: 0.6;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .home-banner { flex-direction: column-reverse; text-align: center; }
+            .home-banner-info-method { flex-direction: column; }
+            .home-product-item, .home-product-item.reverse { flex-direction: column !important; gap: 30px; text-align: center; padding: 20px; }
+            .home-product-item-text .title::before { display: none; }
+            .home-product-item-text .title { padding-left: 0; }
+            .home-culture, .home-contact { grid-template-columns: 1fr; }
+            .home-nav ul { display: none; }
+            .home-footer-copyright, .home-footer-agreement { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div data-v-c786f67c="" class="home-header-container">
+        <div data-v-c786f67c="" class="home-header">
+            <a href="#hero" class="home-logo">
+                <img data-v-c786f67c="" src="https://meetsummer.cn/wp-content/uploads/%E7%BD%91%E7%AB%99Logo128.png" alt="星语 logo">
+                <span class="home-logo-text">星语</span>
+            </a>
+            <div data-v-c786f67c="" class="home-nav">
+                <ul data-v-c786f67c="">
+                    <li data-v-c786f67c="" class="active"><a href="#hero">首页</a></li>
+                    <li data-v-c786f67c=""><a href="#showcase">产品介绍</a></li>
+                    <li data-v-c786f67c=""><a href="#aboutUs">关于我们</a></li>
+                    <li data-v-c786f67c=""><a href="#contactUs">联系我们</a></li>
+                </ul>
+                <a data-v-c786f67c="" href="#" class="web">
+                    <img data-v-c786f67c="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVShortcutKey" alt="网页版">
+                    <span data-v-c786f67c="">网页版</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-banner-container" id="hero">
+        <div class="home-banner">
+            <div class="home-banner-phone">
+                <img src="file:///D:/Desktop/e7c866c6-b794-4f70-a789-7a4b68287f40.png" alt="星语 App Hero">
+            </div>
+            <div class="home-banner-info">
+                <span class="home-banner-info-title">星语-探索星空奥秘，寻觅契合灵魂</span>
+                <span class="home-banner-info-subTitle">解读个人独一无二的浩瀚星盘，精准匹配宿命相吸引的星座伴侣，在浩瀚星海中寻找懂你的另一半</span>
+                <div class="home-banner-info-method">
+                    <div class="home-banner-info-method-download">
+                        <div class="home-banner-info-method-download-box">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAfCAYAAAAbW8YEAAACOklEQVR4AeyWTUgVURiG772VFEFFUBEVRJGLiAihooho2aKiXRFEm2gRCm504UY36kJFVFy4UXcudedKFERRFFyIim5UEMS/hejGH7w+r3fOMKNn7oze0Y3K+8z3zTnffO+ZGe+5N5UI+Uun059Aag8pTagI5sLqQk3DGpxk/lim3EUlzFjoZ+xB1AVEMb3kNPtOLIFnFj4wNgKRlNWU1cugkU7LcBmuQJDuM6G661xXAWaxDPsVaMpFdyjthZVkMnmPWAtZ5dS9pqgcSsGqQFOq60Dv6RoL0B3f5jyrqHtLwSuQqjh/quQwVlOKr1L4A6Q3HGagCMI0REEnGP0xiTdaTSkogDzIVR9tDYJMtykeiwE9Idr4ZTXlH2IUCmLgn98uc2Y15Z3ehZ8x8DVj4z+maPwIBqAJzOfwOWUdMdBED+3JefRW/27iQ91pDxPvoRC04xBiVw0d1f8zsUem+gySHyj/4Bj/4aanZb5MPednk16YnupzPl+PV/vsqT7OQ8039Xi185hx84tv2gzkGLec67ucqNAm079kL+ExG3wfMUFcJLZCrhpWA/rJ9An5CyhOMbAL4zDPgFf/OamGk0pf6O62Sv9ZmIA93am1KZNbUMbkDdBKCa70hWBodkczyW/CLa59B0vkRxRoaiq5cIN8HVwxNmVgcBW8WmDOV++dVB5qqqK4icN057iLimo64Wk86cmVDurgoFcx7uSBIappPR30n9hA/AaueH/6Qf6LgRb4wvkaMav2AQAA//9eJtbeAAAABklEQVQDAE1K/4Tb4FnTAAAAAElFTkSuQmCC" alt="android"> 
+                            Android下载 
+                        </div>
+                        <div class="home-banner-info-method-download-box iphone">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAcCAYAAACK7SRjAAACs0lEQVR4AayWW4hNURjH1zmM+2VCjFJKg3J5GcUrXhBKifCAB+HB7UGRyLOaXIoH90QuUVKUqEm5PVGUlOQyyZvLyP22/X67OWtmY2rO3uf0/fb3rW/v9V/fXnvttU855PglSVIHjdAMD6EVZv8tVbU4In0RmQnXYBNMgt7wCjJWlTjCdfRugqMwGnrAT7gHLyBjVYnTczjshgawb4J/C83wCTLmBZlEVw2q7sm5cTAWrLgivIv2nVKpZJuww7otThfndRG+H3yBJ7ANDsM3+Mcy4lTnKmjAT4X5MA8mw0B6Wtk7/EVwGlbhn8MsmMM142EAcbQozolhZBfAJbgCJ9u5it8Pc6EFrkMjnIYzcAyMb+B3oDMRnLaQitPwAVVucQoXOdBgfD2MhCVwBM7BHlgIo2AoDAKvHYHfCMehCc1ymYNzuJrEWvDCdFTiipUIeoHnKmK2zZOOZtul6qDTzVq5T38DjT7gBbhc5jNxWa6h9yFIFF9G4O0XEUYifOfgymlhWbZBKj6DpIPgCpniCseXSdExSBatGonwg8MziKa4TzomCgS+WF8791fcB9E5lzd2Qbhjxv6Kf4ytYoHbwwSWdpxixV+jWYvqFV+J1hBITfHHRLUQd9d0n1lK9f3RTF//2wS/oag5Hb7tOxFazAD1Vu7nqo1ELap3ALeIveitULyVwJ2vFtUjFRzA+X9Z5jV1tZwi+98Nn3y1ZpFuzbes3M53Obid+rElzG1OrcU6LW9Scap3zvch+RQcGZfLLM59P/2mpuLtMo/wPun3eCvARbPtoL/IiG3CjJm/SeYAxVp9uhRph0DCUS+HELaDd6KY2OkDOc8dxLut3se7j3he7OvUbibvdxUXOsRtMcBn/Anws3YWfx62wDRw31+HXw++LH5v/Q9zgfZWWA4P0Ih39QcAAP//APtbawAAAAZJREFUAwBmAdZ1XuBOrAAAAABJRU5ErkJggg==" alt="ios"> 
+                            Iphone下载 
+                        </div>
+                    </div>
+                    <div class="home-banner-info-method-code">
+                        <img src="https://yx-web-nosdn.netease.im/node-website/b40d9601fd5d372948b1c4cab78c39f0.jpg" alt="二维码">
+                        <span>手机扫码下载APP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-product-container" id="showcase">
+        <div class="title-container">
+            <span class="title">产品与服务</span>
+            <span class="sub-title">星盘测算，契合匹配，占星交友——你的专属星空社交圈</span>
+        </div>
+        <div class="home-product">
+            <div class="home-product-item">
+                <div class="home-product-item-text">
+                    <span class="title">星盘解读</span>
+                    <span>深度分析个人本命盘、太阳/月亮/上升星座，揭示潜在性格特质与感情走向，开启探索自我的宇宙之旅。</span>
+                </div>
+                <div class="home-product-item-img">
+                    <img src="file:///D:/Desktop/466ccc81-239e-43e2-983e-75f9864069e3.jpg" alt="星盘解读">
+                </div>
+            </div>
+            <div class="home-product-item reverse">
+                <div class="home-product-item-text">
+                    <span class="title">星座交友圈</span>
+                    <span>告别盲目匹配，基于星盘合盘算法与相合相位，智能推荐最契合的星友与灵魂伴侣，开启极具共鸣的对话。</span>
+                </div>
+                <div class="home-product-item-img">
+                    <img src="file:///D:/Desktop/d5df0a17-12c3-4d44-8af0-5c76198afd16.jpg" alt="星座交友圈">
+                </div>
+            </div>
+            <div class="home-product-item">
+                <div class="home-product-item-text">
+                    <span class="title">星语心愿</span>
+                    <span>支持文字、语音与星盘实时互照等交互形式，瞬间拉近两颗星球的距离，让深层次沟通跨越星际无界畅达。</span>
+                </div>
+                <div class="home-product-item-img">
+                    <img src="file:///D:/Desktop/dbf99af7-4693-4f8f-9a8d-d7df58ac7fa4.jpg" alt="星语心愿">
+                </div>
+            </div>
+            <div class="home-product-item reverse">
+                <div class="home-product-item-text">
+                    <span class="title">运势广场</span>
+                    <span>分享今日运势、星象变动与心动瞬间——让每一个星象话题都成为交流灵感，用璀璨星空记录浪漫日常。</span>
+                </div>
+                <div class="home-product-item-img">
+                    <img src="file:///D:/Desktop/91497154-1883-4232-8744-f9262bca0531.jpg" alt="运势广场">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section container" id="aboutUs">
+        <div class="title-container">
+            <span class="title">关于我们</span>
+            <span class="sub-title">星象为引，用科技连接心灵</span>
+        </div>
+        <div class="about-content">
+            <p>“星语”是江西星语科技有限公司匠心打造的一款创新星座社交 APP，它将专业西方占星学与现代算法社交深度融合，旨在为用户打造一个“星空相伴，倾心交流”的灵性圈子。在这里，你可以生成高精度的个人星盘，探索行星相位对生活与情感的深刻影响，建立独特的“星象社交生态”。</p>
+            <p>在星座资讯与运势层面，“星语”提供丰富多元的内容，涵盖每日星座运势、新月满月许愿指南、行星逆行预警以及星座情感分析，让用户随时随地感知宇宙能量变化。</p>
+            <p>在即时社交层面，“星语”打造了基于星盘合盘的实时交互功能，这种基于深层性格理解的连接，让每一次倾心相交都充满了宇宙安排的宿命与惊喜。</p>
+            
+            <div class="about-sub-title">使命和愿景</div>
+            <p>我们将持续聚焦“星象科技+社交平台”的主航道，通过占星算法迭代与智能匹配，打造领先的“星盘解读+神秘学社交”创新平台。让每一次灵魂的相遇都有星辰可循，帮助每个人在浩瀚宇宙中找到温暖归宿。</p>
+            
+            <div class="about-sub-title">企业文化</div>
+            
+            <div class="home-culture">
+                <div class="home-culture-item">
+                    <div class="home-culture-item-box">
+                        <img src="https://sychat.cn/assets/png/about_1-DiBlf72Q.png" alt="诚信">
+                        <div class="home-culture-item-box-text">
+                            <span>诚信</span>
+                            <span>基石铸就信任，承诺引领未来</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-culture-item">
+                    <div class="home-culture-item-box">
+                        <img src="https://sychat.cn/assets/png/about_2-BugxuMav.png" alt="创新">
+                        <div class="home-culture-item-box-text">
+                            <span>创新</span>
+                            <span>驱动发展的核心引擎</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-culture-item">
+                    <div class="home-culture-item-box">
+                        <img src="https://sychat.cn/assets/png/about_3-C6MPa9ke.png" alt="协作">
+                        <div class="home-culture-item-box-text">
+                            <span>协作</span>
+                            <span>携手共进，书写成功新篇章</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container" id="contactUs">
+        <div class="title-container">
+            <span class="title">联系我们</span>
+            <span class="sub-title">联系方式多元，沟通自由无限</span>
+        </div>
+        
+        <div class="home-contact">
+            <div class="home-contact-item">
+                <img src="https://sychat.cn/assets/png/contact_1-BpNyRem3.png" alt="客服邮箱">
+                <div class="home-contact-item-box">
+                    <span>客服邮箱</span>
+                    <span>jxxy_app@163.com</span>
+                </div>
+            </div>
+            <div class="home-contact-item">
+                <img src="https://sychat.cn/assets/png/contact_2-BXEWmPEi.png" alt="联系电话">
+                <div class="home-contact-item-box">
+                    <span>联系电话</span>
+                    <span>18870644178</span>
+                </div>
+            </div>
+            <div class="home-contact-item">
+                <img src="https://sychat.cn/assets/png/contact_3-Bm80-1vt.png" alt="官网网站">
+                <div class="home-contact-item-box">
+                    <span>官网网站</span>
+                    <span>www.xychat.cn</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="address-box">
+            <div class="address-text">公司地址：江西省南昌市红谷滩区龙兴大街2508号琥珀园B03-2#楼-613室</div>
+            <img class="address-map-img" src="https://sychat.cn/assets/png/address_map-CAgCQxZ0.png" alt="公司位置地图">
+        </div>
+    </section>
+
+    <div class="home-footer-container" data-v-c786f67c="">
+        <div class="home-footer" data-v-c786f67c="">
+            <div class="home-footer-copyright" data-v-c786f67c="">
+                <span data-v-c786f67c="">Copyright 2026 xychat.cn All Rights Reserved</span>
+                <span data-v-c786f67c="">江西星语科技有限公司</span>
+            </div>
+            <div class="home-footer-agreement" data-v-c786f67c="">
+                <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank" data-v-c786f67c="">赣ICP备2026008197号</a>
+                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=36080202000519" rel="noreferrer" target="_blank" data-v-c786f67c="">赣公网安备36080208000419号</a>
+                <a href="agreement.html" target="_blank" data-v-c786f67c="">用户协议</a>
+                <span data-v-c786f67c="">|</span>
+                <a href="privacy.html" target="_blank" data-v-c786f67c="">隐私政策</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
