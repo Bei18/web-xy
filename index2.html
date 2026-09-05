@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星语 - 官网首页</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f4f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部导航栏 */
+    .home-header-container {
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .home-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .home-logo img {
+      height: 35px;
+      display: block;
+    }
+
+    .home-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .home-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    .home-nav li {
+      font-size: 15px;
+      color: #333639;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .home-nav li:hover {
+      color: #512874;
+    }
+
+    .home-nav a.web {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #2a2b2e;
+      color: #ffffff;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: opacity 0.2s;
+    }
+
+    .home-nav a.web:hover {
+      opacity: 0.9;
+    }
+
+    .home-nav a.web img {
+      width: 15px;
+      height: 16px;
+      display: block;
+    }
+
+    /* 中间主体内容区域 */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* 登录卡片容器 */
+    .loginBox {
+      position: relative;
+      width: 360px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 32px 28px 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 标题与 Tab 栏 */
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1f2225;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid #e0e0e6;
+      margin-bottom: 24px;
+    }
+
+    .tab-item {
+      font-size: 14px;
+      color: #767c82;
+      padding-bottom: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .tab-item.active {
+      color: #512874;
+      font-weight: 500;
+    }
+
+    .tab-item.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(135deg, #512874 0%, #391c52 100%);
+    }
+
+    /* 表单与输入框 */
+    .content-panel {
+      display: none;
+    }
+
+    .content-panel.active {
+      display: block;
+    }
+
+    .inputBox {
+      position: relative;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    .n-input__input-el {
+      width: 100%;
+      height: 36px;
+      padding: 0 32px 0 12px;
+      font-size: 14px;
+      color: #333639;
+      border: 1px solid #e0e0e6;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .n-input__input-el:focus {
+      border-color: #512874;
+      box-shadow: 0 0 0 2px rgba(81, 40, 116, 0.2);
+    }
+
+    /* 密码可视眼图标 */
+    .n-input__eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #c2c2c2;
+      display: flex;
+      align-items: center;
+    }
+
+    .n-input__eye:hover {
+      color: #929292;
+    }
+
+    .n-input__eye svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 提交按钮（更新为渐变紫 UI） */
+    .buttonActive {
+      width: 100%;
+      height: 36px;
+      background: linear-gradient(135deg, #512874 0%, #391c52 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 8px;
+    }
+
+    .buttonActive:hover {
+      opacity: 0.9;
+    }
+
+    /* 二维码容器 */
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .qr-code-wrapper {
+      position: relative;
+      padding: 10px;
+      border: 1px solid #e0e0e6;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .qr-tip {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #767c82;
+      text-align: center;
+    }
+
+    /* 页脚 Footer */
+    .home-footer-container {
+      width: 100%;
+      background-color: #000000;
+      border-top: 1px solid #e0e0e6;
+      padding: 20px 0;
+    }
+
+    .home-footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: #ffffff;
+    }
+
+    .home-footer-copyright {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .home-footer-agreement {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .home-footer-agreement a {
+      color:#ffffff;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .home-footer-agreement a:hover {
+      color: #512874;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 上方导航栏 -->
+  <div data-v-c786f67c="" class="home-header-container">
+    <div data-v-c786f67c="" class="home-header">
+      <div data-v-c786f67c="" class="home-logo">
+        <img data-v-c786f67c="" src="./网站Logo128.png" alt="logo">
+      </div>
+      <div data-v-c786f67c="" class="home-nav">
+        <ul data-v-c786f67c="">
+          <li data-v-c786f67c="" class="">首页</li>
+          <li data-v-c786f67c="">产品介绍</li>
+          <li data-v-c786f67c="">关于我们</li>
+          <li data-v-c786f67c="">联系我们</li>
+        </ul>
+        <a data-v-c786f67c="" href="/messages" class="web">
+          <img data-v-c786f67c="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVORK5CYII=" alt="网页版">
+          <span data-v-c786f67c="">网页版</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主体登录区域 -->
+  <div class="main-content">
+    <div class="loginBox">
+      <div class="title">星语</div>
+
+      <!-- Tab 导航 -->
+      <div class="tab">
+        <span class="tab-item active" onclick="switchTab(0)">扫码登录</span>
+        <span class="tab-item" onclick="switchTab(1)">手机号登录</span>
+        <span class="tab-item" onclick="switchTab(2)">ID登录</span>
+      </div>
+
+      <!-- 1. 扫码登录面板 -->
+      <div class="content-panel active" id="panel-qr">
+        <div class="qr-container">
+          <div class="qr-code-wrapper" onclick="generateQRCode()" title="点击刷新二维码">
+            <canvas id="qrCanvas" width="160" height="160"></canvas>
+          </div>
+          <p class="qr-tip">请使用 星语 App 扫码登录<br><span style="font-size: 11px; color: #9ca3af;">(点击二维码可重新生成)</span></p>
+        </div>
+      </div>
+
+      <!-- 2. 手机号登录面板 -->
+      <div class="content-panel" id="panel-phone">
+        <div class="inputBox">
+          <input type="text" class="n-input__input-el" placeholder="请输入手机号" maxlength="11" value="">
+        </div>
+        <div class="inputBox">
+          <input type="password" class="n-input__input-el" id="phone-pass" placeholder="请输入密码" value="">
+          <span class="n-input__eye" onclick="togglePassword('phone-pass', this)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+          </span>
+        </div>
+        <button class="buttonActive" type="button">登录</button>
+      </div>
+
+      <!-- 3. ID登录面板 -->
+      <div class="content-panel" id="panel-id">
+        <div class="inputBox">
+          <input type="text" class="n-input__input-el" placeholder="请输入星语ID" maxlength="10" value="">
+        </div>
+        <div class="inputBox">
+          <input type="password" class="n-input__input-el" id="id-pass" placeholder="请输入密码" value="">
+          <span class="n-input__eye" onclick="togglePassword('id-pass', this)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+          </span>
+        </div>
+        <button class="buttonActive" type="button">登录</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下方 Footer 页脚 -->
+  <div class="home-footer-container">
+    <div class="home-footer">
+      <div class="home-footer-copyright">
+        <span>Copyright 2026 sychat.cn All Rights Reserved</span>
+        <span>江西星语科技有限公司</span>
+      </div>
+      <div class="home-footer-agreement">
+        <a href="https://beian.miit.gov.cn/" rel="noreferrer" target="_blank">赣ICP备2026004197号</a>
+        <a href="https://beian.mps.gov.cn/#/query/webSearch?code=36080202000519" rel="noreferrer" target="_blank">赣公网安备36080202000519号</a>
+        <a href="agreement.html" target="_blank">用户协议</a>
+        <span>|</span>
+        <a href="privacy.html" target="_blank">隐私政策</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab 切换逻辑
+    function switchTab(index) {
+      const tabs = document.querySelectorAll('.tab-item');
+      const panels = document.querySelectorAll('.content-panel');
+      
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active');
+          panels[i].classList.add('active');
+        } else {
+          tab.classList.remove('active');
+          panels[i].classList.remove('active');
+        }
+      });
+
+      if (index === 0) {
+        generateQRCode();
+      }
+    }
+
+    // 密码显示 / 隐藏功能
+    function togglePassword(inputId, eyeEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeEl.style.color = '#512874';
+      } else {
+        input.type = 'password';
+        eyeEl.style.color = '#c2c2c2';
+      }
+    }
+
+    // 二维码绘制算法
+    function generateQRCode() {
+      const canvas = document.getElementById('qrCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const gridCount = 29;
+      const cellSize = canvas.width / gridCount;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#000000';
+
+      function drawPositionPattern(x, y) {
+        for (let r = 0; r < 7; r++) {
+          for (let c = 0; c < 7; c++) {
+            if (
+              r === 0 || r === 6 || c === 0 || c === 6 ||
+              (r >= 2 && r <= 4 && c >= 2 && c <= 4)
+            ) {
+              ctx.fillRect((x + c) * cellSize, (y + r) * cellSize, cellSize, cellSize);
+            }
+          }
+        }
+      }
+
+      drawPositionPattern(0, 0);                        // 左上角
+      drawPositionPattern(gridCount - 7, 0);             // 右上角
+      drawPositionPattern(0, gridCount - 7);             // 左下角
+
+      for (let r = 0; r < gridCount; r++) {
+        for (let c = 0; c < gridCount; c++) {
+          const isTopLeft = r < 8 && c < 8;
+          const isTopRight = r < 8 && c >= gridCount - 8;
+          const isBottomLeft = r >= gridCount - 8 && c < 8;
+
+          if (!isTopLeft && !isTopRight && !isBottomLeft) {
+            if (Math.random() > 0.5) {
+              ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+            }
+          }
+        }
+      }
+    }
+
+    window.onload = function() {
+      generateQRCode();
+    };
+  </script>
+
+</body>
+</html>
