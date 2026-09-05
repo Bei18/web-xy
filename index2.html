@@ -19,7 +19,7 @@
       flex-direction: column;
     }
 
-    /* 顶部导航栏 */
+    /* 顶部导航栏容器 */
     .home-header-container {
       width: 100%;
       background-color: #ffffff;
@@ -39,11 +39,27 @@
       justify-content: space-between;
     }
 
+    /* Logo 及文字 */
+    .home-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
     .home-logo img {
       height: 35px;
       display: block;
     }
 
+    .home-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2225;
+      letter-spacing: 1px;
+    }
+
+    /* 导航菜单 */
     .home-nav {
       display: flex;
       align-items: center;
@@ -56,17 +72,23 @@
       gap: 24px;
     }
 
-    .home-nav li {
+    .home-nav ul li {
       font-size: 15px;
+    }
+
+    .home-nav ul li a {
       color: #333639;
-      cursor: pointer;
+      text-decoration: none;
       transition: color 0.2s;
     }
 
-    .home-nav li:hover {
+    .home-nav ul li.active a,
+    .home-nav ul li a:hover {
       color: #512874;
+      font-weight: 500;
     }
 
+    /* 网页版按钮 */
     .home-nav a.web {
       display: inline-flex;
       align-items: center;
@@ -99,34 +121,34 @@
       padding: 40px 20px;
     }
 
-    /* 登录卡片容器 */
+    /* 登录卡片容器（宽度更改为 280px） */
     .loginBox {
       position: relative;
-      width: 360px;
+      width: 280px;
       background: #ffffff;
       border-radius: 12px;
-      padding: 32px 28px 28px;
+      padding: 24px 18px 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     /* 标题与 Tab 栏 */
     .title {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       color: #1f2225;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .tab {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       border-bottom: 1px solid #e0e0e6;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .tab-item {
-      font-size: 14px;
+      font-size: 13px;
       color: #767c82;
       padding-bottom: 8px;
       cursor: pointer;
@@ -160,15 +182,15 @@
 
     .inputBox {
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       width: 100%;
     }
 
     .n-input__input-el {
       width: 100%;
       height: 36px;
-      padding: 0 32px 0 12px;
-      font-size: 14px;
+      padding: 0 32px 0 10px;
+      font-size: 13px;
       color: #333639;
       border: 1px solid #e0e0e6;
       border-radius: 6px;
@@ -202,7 +224,7 @@
       height: 16px;
     }
 
-    /* 提交按钮（更新为渐变紫 UI） */
+    /* 提交按钮 */
     .buttonActive {
       width: 100%;
       height: 36px;
@@ -214,7 +236,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: opacity 0.2s;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .buttonActive:hover {
@@ -226,12 +248,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px 0;
+      padding: 4px 0;
     }
 
     .qr-code-wrapper {
       position: relative;
-      padding: 10px;
+      padding: 8px;
       border: 1px solid #e0e0e6;
       border-radius: 8px;
       background: #fff;
@@ -240,13 +262,16 @@
 
     canvas {
       display: block;
+      max-width: 100%;
+      height: auto;
     }
 
     .qr-tip {
-      margin-top: 12px;
-      font-size: 13px;
+      margin-top: 10px;
+      font-size: 12px;
       color: #767c82;
       text-align: center;
+      line-height: 1.4;
     }
 
     /* 页脚 Footer */
@@ -285,7 +310,7 @@
     }
 
     .home-footer-agreement a {
-      color:#ffffff;
+      color: #ffffff;
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -298,21 +323,22 @@
 <body>
 
   <!-- 上方导航栏 -->
-  <div data-v-c786f67c="" class="home-header-container">
-    <div data-v-c786f67c="" class="home-header">
-      <div data-v-c786f67c="" class="home-logo">
-        <img data-v-c786f67c="" src="./网站Logo128.png" alt="logo">
-      </div>
-      <div data-v-c786f67c="" class="home-nav">
-        <ul data-v-c786f67c="">
-          <li data-v-c786f67c="" class="">首页</li>
-          <li data-v-c786f67c="">产品介绍</li>
-          <li data-v-c786f67c="">关于我们</li>
-          <li data-v-c786f67c="">联系我们</li>
+  <div class="home-header-container">
+    <div class="home-header">
+      <a href="#hero" class="home-logo">
+        <img src="网站Logo128.png" alt="星语 logo">
+        <span class="home-logo-text">星语</span>
+      </a>
+      <div class="home-nav">
+        <ul>
+          <li class="active"><a href="#hero">首页</a></li>
+          <li><a href="#showcase">产品介绍</a></li>
+          <li><a href="#aboutUs">关于我们</a></li>
+          <li><a href="#contactUs">联系我们</a></li>
         </ul>
-        <a data-v-c786f67c="" href="/messages" class="web">
-          <img data-v-c786f67c="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVORK5CYII=" alt="网页版">
-          <span data-v-c786f67c="">网页版</span>
+        <a href="https://bei18.github.io/web-xy/index2.html" class="web">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAABiElEQVR4AYySzyuEURSG7wzJ1GD8aiJSZMFGTSytFAtmo5Q0C/+AYkGRNbGxsrAVUUpkNhQjWbGxUUrJgkgjYYiiz/PemflqGM1M5/nec8+959x77h2v4ec4ThgSkMv2WVBDijWbjDcMVxD+hyPismY+hxSoRU06uYjBo8fjiWaDuVuQdfAphhgFgulkxkkjGIJzmIPuZNR8prQEHQIdfSIjmcVNTBxDH0zDCrF2dBk+4BI0ryL+jGQmXuEFVKQcLYUbWomBD6wRi4Lbs3zDzANOC8zDKASJ3aNZ7ffOKvBEQgim4DlrViropad6/AoI4HfmIMA617SzLiNOZBMGoBp0YQ2o3rcO7Yd1iFO8DLWm5Du8A9gDPcNZSlfRRY6+hp5AAgpA/wnEuBfm2JExlWghVIEPJtlJivvXtHMr4QjodhEzzkcFZlE92wyqE22hp/AG1pQ8iPcNeqIuVMfsQbdB4x10AXYhQhvvqDUvgwu8a/BDWw56aWOMNY3g9rzE4AtG8kQXt/EDAAD//wCQF3UAAAAGSURBVAMApLK11zO00sgAAAAASUVShortcutKey" alt="网页版">
+          <span>网页版</span>
         </a>
       </div>
     </div>
@@ -336,7 +362,7 @@
           <div class="qr-code-wrapper" onclick="generateQRCode()" title="点击刷新二维码">
             <canvas id="qrCanvas" width="160" height="160"></canvas>
           </div>
-          <p class="qr-tip">请使用 星语 App 扫码登录<br><span style="font-size: 11px; color: #9ca3af;">(点击二维码可重新生成)</span></p>
+          <p class="qr-tip">请使用 星语 App 扫码登录<br></p>
         </div>
       </div>
 
