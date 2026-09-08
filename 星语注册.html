@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星语</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f4f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 中间主体内容区域 */
+    .main-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* 登录/注册卡片容器 */
+    .loginBox {
+      position: relative;
+      width: 320px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 标题与 Tab 栏 */
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2225;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid #e0e0e6;
+      margin-bottom: 20px;
+    }
+
+    .tab-item {
+      font-size: 14px;
+      color: #767c82;
+      padding-bottom: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .tab-item.active {
+      color: #512874;
+      font-weight: 500;
+    }
+
+    .tab-item.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(135deg, #512874 0%, #391c52 100%);
+    }
+
+    /* 表单与输入框 */
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    .content-panel {
+      display: none;
+    }
+
+    .content-panel.active {
+      display: block;
+    }
+
+    .form-item-container {
+      margin-bottom: 14px;
+    }
+
+    .inputBox {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .n-input__input-el {
+      width: 100%;
+      height: 36px;
+      padding: 0 32px 0 10px;
+      font-size: 13px;
+      color: #333639;
+      border: 1px solid #e0e0e6;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .n-input__input-el:focus {
+      border-color: #512874;
+      box-shadow: 0 0 0 2px rgba(81, 40, 116, 0.2);
+    }
+
+    /* 校验错误输入框高亮 */
+    .n-input__input-el.has-error {
+      border-color: #d03050 !important;
+    }
+    
+    .n-input__input-el.has-error:focus {
+      box-shadow: 0 0 0 2px rgba(208, 48, 80, 0.2) !important;
+    }
+
+    /* 校验错误提示样式 */
+    .n-form-item-feedback-wrapper {
+      min-height: 18px;
+      padding-top: 4px;
+    }
+
+    .n-form-item-feedback {
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .n-form-item-feedback--error {
+      color: #d03050;
+    }
+
+    /* 密码可视眼图标 */
+    .n-input__eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #c2c2c2;
+      display: flex;
+      align-items: center;
+    }
+
+    .n-input__eye:hover {
+      color: #929292;
+    }
+
+    .n-input__eye svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 图片验证码 Canvas */
+    .captcha-canvas {
+      width: 90px;
+      height: 36px;
+      border: 1px solid #e0e0e6;
+      border-radius: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* 发送验证码小按钮 */
+    .btn-send-code {
+      height: 36px;
+      padding: 0 10px;
+      white-space: nowrap;
+      font-size: 12px;
+      background: #512874;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .btn-send-code:disabled {
+      background: #e0e0e6;
+      color: #c2c2c2;
+      cursor: not-allowed;
+    }
+
+    /* 提交/注册按钮 */
+    .buttonActive {
+      width: 100%;
+      height: 36px;
+      background: linear-gradient(135deg, #512874 0%, #391c52 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s, background 0.2s;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .buttonActive:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    .buttonActive:disabled {
+      background: #e0e0e6;
+      color: #c2c2c2;
+      cursor: not-allowed;
+      opacity: 1;
+    }
+
+    /* 切换链接区 */
+    .switch-link {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 13px;
+      color: #767c82;
+    }
+
+    .switch-link a {
+      color: #512874;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Spinner 旋转动画样式 */
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Naive UI 提示弹窗 (Toast) 样式 */
+    .n-message-container {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .n-message {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      color: #333639;
+      padding: 10px 16px;
+      border-radius: 6px;
+      box-shadow: 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .n-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .n-message__icon {
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+    }
+
+    .n-message__icon--error-type {
+      color: #d03050;
+    }
+
+    .n-message__icon--success-type {
+      color: #18a058;
+    }
+
+    .n-message__icon svg {
+      width: 18px;
+      height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast 提示框挂载容器 -->
+  <div id="message-container" class="n-message-container"></div>
+
+  <!-- 主体区域 -->
+  <div class="main-content">
+    <div class="loginBox">
+      <div class="title">星语</div>
+
+      <!-- ==================== 1. 登录页面视图 ==================== -->
+      <div class="view-panel active" id="view-login">
+        <!-- Tab 导航 -->
+        <div class="tab">
+          <span class="tab-item active" onclick="switchTab(0)">手机号登录</span>
+          <span class="tab-item" onclick="switchTab(1)">ID登录</span>
+        </div>
+
+        <!-- 手机号登录面板 -->
+        <div class="content-panel active" id="panel-phone">
+          <div class="form-item-container">
+            <div class="inputBox">
+              <input type="text" class="n-input__input-el" id="phone-input" placeholder="请输入手机号" maxlength="11" oninput="validatePhoneForm()">
+            </div>
+            <div class="n-form-item-feedback-wrapper" id="phone-feedback"></div>
+          </div>
+          <div class="form-item-container">
+            <div class="inputBox">
+              <input type="password" class="n-input__input-el" id="phone-pass" placeholder="请输入密码" oninput="validatePhoneForm()">
+              <span class="n-input__eye" onclick="togglePassword('phone-pass', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+              </span>
+            </div>
+            <div class="n-form-item-feedback-wrapper" id="phone-pass-feedback"></div>
+          </div>
+          <button class="buttonActive" id="btn-phone-login" type="button" disabled onclick="handleLogin(this)">登录</button>
+        </div>
+
+        <!-- ID登录面板 -->
+        <div class="content-panel" id="panel-id">
+          <div class="form-item-container">
+            <div class="inputBox">
+              <input type="text" class="n-input__input-el" id="id-input" placeholder="请输入星语ID" maxlength="10" oninput="validateIdForm()">
+            </div>
+            <div class="n-form-item-feedback-wrapper" id="id-feedback"></div>
+          </div>
+          <div class="form-item-container">
+            <div class="inputBox">
+              <input type="password" class="n-input__input-el" id="id-pass" placeholder="请输入密码" oninput="validateIdForm()">
+              <span class="n-input__eye" onclick="togglePassword('id-pass', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+              </span>
+            </div>
+            <div class="n-form-item-feedback-wrapper" id="id-pass-feedback"></div>
+          </div>
+          <button class="buttonActive" id="btn-id-login" type="button" disabled onclick="handleLogin(this)">登录</button>
+        </div>
+
+        <!-- 切换至注册入口 -->
+        <div class="switch-link">
+          没有账号？<a onclick="switchToView('register')">立即注册</a>
+        </div>
+      </div>
+
+      <!-- ==================== 2. 注册页面视图 ==================== -->
+      <div class="view-panel" id="view-register">
+        <div style="font-size: 15px; font-weight: 500; text-align: center; margin-bottom: 16px; color: #512874;">新用户注册</div>
+
+        <!-- 手机号 -->
+        <div class="form-item-container">
+          <div class="inputBox">
+            <input type="text" class="n-input__input-el" id="reg-phone" placeholder="请输入11位手机号" maxlength="11" oninput="validateRegisterForm()">
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="reg-phone-feedback"></div>
+        </div>
+
+        <!-- 图片验证码 -->
+        <div class="form-item-container">
+          <div class="input-group">
+            <input type="text" class="n-input__input-el" id="reg-img-code" placeholder="图形验证码" maxlength="4" oninput="validateRegisterForm()">
+            <canvas id="captchaCanvas" class="captcha-canvas" width="90" height="36" onclick="drawCaptcha()" title="点击刷新验证码"></canvas>
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="reg-img-feedback"></div>
+        </div>
+
+        <!-- 短信验证码 -->
+        <div class="form-item-container">
+          <div class="input-group">
+            <input type="text" class="n-input__input-el" id="reg-sms-code" placeholder="短信验证码" maxlength="6" oninput="validateRegisterForm()">
+            <button class="btn-send-code" id="btn-send-sms" type="button" disabled onclick="sendSmsCode()">获取验证码</button>
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="reg-sms-feedback"></div>
+        </div>
+
+        <button class="buttonActive" id="btn-register" type="button" disabled onclick="handleRegister(this)">注册</button>
+
+        <!-- 切换至登录入口 -->
+        <div class="switch-link">
+          已有账号？<a onclick="switchToView('login')">返回登录</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let currentCaptcha = ""; // 存储产生的图形验证码
+    let smsCountdownTimer = null;
+
+    // 页面视图切换（登录 <-> 注册）
+    function switchToView(viewName) {
+      const loginView = document.getElementById('view-login');
+      const registerView = document.getElementById('view-register');
+
+      if (viewName === 'register') {
+        loginView.classList.remove('active');
+        registerView.classList.add('active');
+        drawCaptcha(); // 生成图形验证码
+        validateRegisterForm();
+      } else {
+        registerView.classList.remove('active');
+        loginView.classList.add('active');
+        switchTab(0);
+      }
+    }
+
+    // Tab 切换逻辑 (登录方式)
+    function switchTab(index) {
+      const tabs = document.querySelectorAll('#view-login .tab-item');
+      const panels = document.querySelectorAll('#view-login .content-panel');
+      
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active');
+          panels[i].classList.add('active');
+        } else {
+          tab.classList.remove('active');
+          panels[i].classList.remove('active');
+        }
+      });
+
+      if (index === 0) {
+        validatePhoneForm();
+      } else if (index === 1) {
+        validateIdForm();
+      }
+    }
+
+    // 渲染错误提示节点结构
+    function createErrorFeedbackHTML(msg) {
+      return `<div class="n-form-item-feedback n-form-item-feedback--error"><div class="n-form-item-feedback__line">${msg}</div></div>`;
+    }
+
+    // 校验手机号登录表单
+    function validatePhoneForm() {
+      const phoneInput = document.getElementById('phone-input');
+      const passInput = document.getElementById('phone-pass');
+      const phoneFeedback = document.getElementById('phone-feedback');
+      const passFeedback = document.getElementById('phone-pass-feedback');
+      const loginBtn = document.getElementById('btn-phone-login');
+
+      let isPhoneValid = false;
+      let isPassValid = false;
+
+      const phoneVal = phoneInput.value.trim();
+      if (phoneVal.length === 0 || phoneVal.length < 11) {
+        phoneFeedback.innerHTML = createErrorFeedbackHTML('请输入11位手机号');
+        phoneInput.classList.add('has-error');
+      } else {
+        phoneFeedback.innerHTML = '';
+        phoneInput.classList.remove('has-error');
+        isPhoneValid = true;
+      }
+
+      const passVal = passInput.value;
+      if (passVal.length < 6) {
+        passFeedback.innerHTML = createErrorFeedbackHTML('密码至少为6位数');
+        passInput.classList.add('has-error');
+      } else {
+        passFeedback.innerHTML = '';
+        passInput.classList.remove('has-error');
+        isPassValid = true;
+      }
+
+      loginBtn.disabled = !(isPhoneValid && isPassValid);
+    }
+
+    // 校验 ID 登录表单
+    function validateIdForm() {
+      const idInput = document.getElementById('id-input');
+      const passInput = document.getElementById('id-pass');
+      const idFeedback = document.getElementById('id-feedback');
+      const passFeedback = document.getElementById('id-pass-feedback');
+      const loginBtn = document.getElementById('btn-id-login');
+
+      let isIdValid = false;
+      let isPassValid = false;
+
+      const idVal = idInput.value.trim();
+      if (idVal.length === 0 || idVal.length < 10) {
+        idFeedback.innerHTML = createErrorFeedbackHTML('请输入10位星语ID');
+        idInput.classList.add('has-error');
+      } else {
+        idFeedback.innerHTML = '';
+        idInput.classList.remove('has-error');
+        isIdValid = true;
+      }
+
+      const passVal = passInput.value;
+      if (passVal.length < 6) {
+        passFeedback.innerHTML = createErrorFeedbackHTML('密码至少为6位数');
+        passInput.classList.add('has-error');
+      } else {
+        passFeedback.innerHTML = '';
+        passInput.classList.remove('has-error');
+        isPassValid = true;
+      }
+
+      loginBtn.disabled = !(isIdValid && isPassValid);
+    }
+
+    // 校验注册表单逻辑
+    function validateRegisterForm() {
+      const phoneInput = document.getElementById('reg-phone');
+      const imgInput = document.getElementById('reg-img-code');
+      const smsInput = document.getElementById('reg-sms-code');
+      
+      const phoneFeedback = document.getElementById('reg-phone-feedback');
+      const imgFeedback = document.getElementById('reg-img-feedback');
+
+      const btnSendSms = document.getElementById('btn-send-sms');
+      const btnRegister = document.getElementById('btn-register');
+
+      const phoneVal = phoneInput.value.trim();
+      const imgVal = imgInput.value.trim();
+      const smsVal = smsInput.value.trim();
+
+      // 手机号 11 位且纯数字
+      const isPhone11 = /^1\d{10}$/.test(phoneVal);
+
+      // 图形验证码匹配校验
+      const isImgValid = imgVal.length === 4 && imgVal.toLowerCase() === currentCaptcha.toLowerCase();
+
+      // 校验手机框显示
+      if (phoneVal.length > 0 && !isPhone11) {
+        phoneFeedback.innerHTML = createErrorFeedbackHTML('请输入正确的11位手机号');
+        phoneInput.classList.add('has-error');
+      } else {
+        phoneFeedback.innerHTML = '';
+        phoneInput.classList.remove('has-error');
+      }
+
+      // 校验图形验证码显示
+      if (imgVal.length === 4 && !isImgValid) {
+        imgFeedback.innerHTML = createErrorFeedbackHTML('图形验证码不正确');
+        imgInput.classList.add('has-error');
+      } else {
+        imgFeedback.innerHTML = '';
+        imgInput.classList.remove('has-error');
+      }
+
+      // 【核心修改】：发送验证码按钮必须满足手机号11位 + 图片验证码正确 才可以激活
+      if (!smsCountdownTimer) {
+        btnSendSms.disabled = !(isPhone11 && isImgValid);
+      }
+
+      // 注册按钮激活条件：手机号11位 + 图形验证码正确 + 填写了短信验证码(>=4位)
+      const isSmsValid = smsVal.length >= 4;
+      btnRegister.disabled = !(isPhone11 && isImgValid && isSmsValid);
+    }
+
+    // 发送短信验证码动画与逻辑
+    function sendSmsCode() {
+      const phoneInput = document.getElementById('reg-phone');
+      const btnSendSms = document.getElementById('btn-send-sms');
+      const phoneVal = phoneInput.value.trim();
+
+      if (!/^1\d{10}$/.test(phoneVal)) return;
+
+      // 触发按钮圈圈 Loading 动画
+      btnSendSms.disabled = true;
+      btnSendSms.innerHTML = `<span class="spinner"></span> 发送中`;
+
+      // 模拟请求 delay 1.5 秒
+      setTimeout(() => {
+        // 脱敏手机号显示
+        const maskedPhone = phoneVal.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+        showToast(`已发送短信至 ${maskedPhone}`, 'success');
+
+        // 开启 60s 倒计时
+        let countdown = 60;
+        btnSendSms.innerHTML = `${countdown}s 后重试`;
+        
+        smsCountdownTimer = setInterval(() => {
+          countdown--;
+          if (countdown > 0) {
+            btnSendSms.innerHTML = `${countdown}s 后重试`;
+          } else {
+            clearInterval(smsCountdownTimer);
+            smsCountdownTimer = null;
+            btnSendSms.innerHTML = `获取验证码`;
+            validateRegisterForm(); // 重新校验评估按钮状态
+          }
+        }, 1000);
+      }, 1500);
+    }
+
+    // 点击注册逻辑
+    function handleRegister(btn) {
+      if (btn.disabled) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> 注册中`;
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = `注册`;
+        showToast('注册成功！正在为你跳转登录', 'success');
+
+        setTimeout(() => {
+          switchToView('login');
+        }, 1500);
+      }, 1200);
+    }
+
+    // 绘制 Canvas 图形验证码
+    function drawCaptcha() {
+      const canvas = document.getElementById('captchaCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      
+      const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+      let code = "";
+      ctx.fillStyle = "#f2f3f5";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 绘制随机干扰线
+      for (let i = 0; i < 3; i++) {
+        ctx.strokeStyle = `rgba(81, 40, 116, ${Math.random() * 0.4 + 0.2})`;
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.stroke();
+      }
+
+      // 生成4位随机字符
+      for (let i = 0; i < 4; i++) {
+        const char = chars.charAt(Math.floor(Math.random() * chars.length));
+        code += char;
+        ctx.font = "bold 18px sans-serif";
+        ctx.fillStyle = "#512874";
+        ctx.fillText(char, 12 + i * 18, 25 + (Math.random() * 4 - 2));
+      }
+      currentCaptcha = code;
+
+      // 重新生成验证码后重新触发校验
+      validateRegisterForm();
+    }
+
+    // 密码显示 / 隐藏切换
+    function togglePassword(inputId, eyeEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeEl.style.color = '#512874';
+      } else {
+        input.type = 'password';
+        eyeEl.style.color = '#c2c2c2';
+      }
+    }
+
+    // 点击登录处理
+    function handleLogin(btn) {
+      if (btn.disabled) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> 登录中`;
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = `登录`;
+        showToast('账号或密码错误，请重试', 'error');
+      }, 1000);
+    }
+
+    // 显示 Toast 通用提示框 (支持 error 和 success 两种类型)
+    function showToast(msg, type = 'error') {
+      const container = document.getElementById('message-container');
+      const msgEl = document.createElement('div');
+      msgEl.className = 'n-message';
+
+      const iconHTML = type === 'success' 
+        ? `<div class="n-message__icon n-message__icon--success-type">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4C12.95 4 4 12.95 4 24C4 35.05 12.95 44 24 44C35.05 44 44 35.05 44 24C44 12.95 35.05 4 24 4ZM20 34L10 24L12.83 21.17L20 28.34L35.17 13.17L38 16L20 34Z" fill="currentColor"/>
+            </svg>
+           </div>`
+        : `<div class="n-message__icon n-message__icon--error-type">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4C35.0457 4 44 12.9543 44 24C44 35.0457 35.0457 44 24 44C12.9543 44 4 35.0457 4 24C4 12.9543 12.9543 4 24 4ZM30.364 15.222C29.778 14.636 28.828 14.636 28.243 15.222L24 19.464L19.757 15.222C19.172 14.636 18.222 14.636 17.636 15.222C17.05 15.808 17.05 16.757 17.636 17.343L21.879 21.586L17.636 25.828C17.05 26.414 17.05 27.364 17.636 27.95C18.222 28.536 19.172 28.536 19.757 27.95L24 23.707L28.243 27.95C28.828 28.536 29.778 28.536 30.364 27.95C30.95 27.364 30.95 26.414 30.364 25.828L26.121 21.586L30.364 17.343C30.95 16.757 30.95 15.808 30.364 15.222Z" fill="currentColor"/>
+            </svg>
+           </div>`;
+
+      msgEl.innerHTML = `${iconHTML}<div class="n-message__content">${msg}</div>`;
+      container.appendChild(msgEl);
+
+      setTimeout(() => {
+        msgEl.classList.add('show');
+      }, 10);
+
+      setTimeout(() => {
+        msgEl.classList.remove('show');
+        setTimeout(() => {
+          if (msgEl.parentNode) {
+            msgEl.parentNode.removeChild(msgEl);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    window.onload = function() {
+      validatePhoneForm();
+    };
+  </script>
+
+</body>
+</html>
