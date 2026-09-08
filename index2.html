@@ -180,9 +180,12 @@
       display: block;
     }
 
+    .form-item-container {
+      margin-bottom: 14px;
+    }
+
     .inputBox {
       position: relative;
-      margin-bottom: 14px;
       width: 100%;
     }
 
@@ -201,6 +204,30 @@
     .n-input__input-el:focus {
       border-color: #512874;
       box-shadow: 0 0 0 2px rgba(81, 40, 116, 0.2);
+    }
+
+    /* 校验错误输入框高亮 */
+    .n-input__input-el.has-error {
+      border-color: #d03050 !important;
+    }
+    
+    .n-input__input-el.has-error:focus {
+      box-shadow: 0 0 0 2px rgba(208, 48, 80, 0.2) !important;
+    }
+
+    /* 校验错误提示样式 */
+    .n-form-item-feedback-wrapper {
+      min-height: 20px;
+      padding-top: 4px;
+    }
+
+    .n-form-item-feedback {
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .n-form-item-feedback--error {
+      color: #d03050;
     }
 
     /* 密码可视眼图标 */
@@ -235,7 +262,7 @@
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, background 0.2s;
       margin-top: 6px;
       display: flex;
       align-items: center;
@@ -243,13 +270,16 @@
       gap: 6px;
     }
 
-    .buttonActive:hover {
+    .buttonActive:hover:not(:disabled) {
       opacity: 0.9;
     }
 
+    /* 按钮禁用样式（灰色不可点击） */
     .buttonActive:disabled {
+      background: #e0e0e6;
+      color: #c2c2c2;
       cursor: not-allowed;
-      opacity: 0.7;
+      opacity: 1;
     }
 
     /* Spinner 旋转动画样式 */
@@ -442,30 +472,42 @@
 
       <!-- 2. 手机号登录面板 -->
       <div class="content-panel" id="panel-phone">
-        <div class="inputBox">
-          <input type="text" class="n-input__input-el" placeholder="请输入手机号" maxlength="11" value="">
+        <div class="form-item-container">
+          <div class="inputBox">
+            <input type="text" class="n-input__input-el" id="phone-input" placeholder="请输入手机号" maxlength="11" oninput="validatePhoneForm()">
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="phone-feedback"></div>
         </div>
-        <div class="inputBox">
-          <input type="password" class="n-input__input-el" id="phone-pass" placeholder="请输入密码" value="">
-          <span class="n-input__eye" onclick="togglePassword('phone-pass', this)">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
-          </span>
+        <div class="form-item-container">
+          <div class="inputBox">
+            <input type="password" class="n-input__input-el" id="phone-pass" placeholder="请输入密码" oninput="validatePhoneForm()">
+            <span class="n-input__eye" onclick="togglePassword('phone-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+            </span>
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="phone-pass-feedback"></div>
         </div>
-        <button class="buttonActive" type="button" onclick="handleLogin(this)">登录</button>
+        <button class="buttonActive" id="btn-phone-login" type="button" disabled onclick="handleLogin(this)">登录</button>
       </div>
 
       <!-- 3. ID登录面板 -->
       <div class="content-panel" id="panel-id">
-        <div class="inputBox">
-          <input type="text" class="n-input__input-el" placeholder="请输入星语ID" maxlength="10" value="">
+        <div class="form-item-container">
+          <div class="inputBox">
+            <input type="text" class="n-input__input-el" id="id-input" placeholder="请输入星语ID" maxlength="10" oninput="validateIdForm()">
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="id-feedback"></div>
         </div>
-        <div class="inputBox">
-          <input type="password" class="n-input__input-el" id="id-pass" placeholder="请输入密码" value="">
-          <span class="n-input__eye" onclick="togglePassword('id-pass', this)">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
-          </span>
+        <div class="form-item-container">
+          <div class="inputBox">
+            <input type="password" class="n-input__input-el" id="id-pass" placeholder="请输入密码" oninput="validateIdForm()">
+            <span class="n-input__eye" onclick="togglePassword('id-pass', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M432 448a15.92 15.92 0 0 1-11.31-4.69l-352-352a16 16 0 0 1 22.62-22.62l352 352A16 16 0 0 1 432 448z" fill="currentColor"></path><path d="M255.66 384c-41.49 0-81.5-12.28-118.92-36.5c-34.07-22-64.74-53.51-88.7-91v-.08c19.94-28.57 41.78-52.73 65.24-72.21a2 2 0 0 0 .14-2.94L93.5 161.38a2 2 0 0 0-2.71-.12c-24.92 21-48.05 46.76-69.08 76.92a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416a239.13 239.13 0 0 0 75.8-12.58a2 2 0 0 0 .77-3.31l-21.58-21.58a4 4 0 0 0-3.83-1a204.8 204.8 0 0 1-51.16 6.47z" fill="currentColor"></path><path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96a227.34 227.34 0 0 0-74.89 12.83a2 2 0 0 0-.75 3.31l21.55 21.55a4 4 0 0 0 3.88 1a192.82 192.82 0 0 1 50.21-6.69c40.69 0 80.58 12.43 118.55 37c34.71 22.4 65.74 53.88 89.76 91a.13.13 0 0 1 0 .16a310.72 310.72 0 0 1-64.12 72.73a2 2 0 0 0-.15 2.95l19.9 19.89a2 2 0 0 0 2.7.13a343.49 343.49 0 0 0 68.64-78.48a32.2 32.2 0 0 0-.1-34.78z" fill="currentColor"></path><path d="M256 160a95.88 95.88 0 0 0-21.37 2.4a2 2 0 0 0-1 3.38l112.59 112.56a2 2 0 0 0 3.38-1A96 96 0 0 0 256 160z" fill="currentColor"></path><path d="M165.78 233.66a2 2 0 0 0-3.38 1a96 96 0 0 0 115 115a2 2 0 0 0 1-3.38z" fill="currentColor"></path></svg>
+            </span>
+          </div>
+          <div class="n-form-item-feedback-wrapper" id="id-pass-feedback"></div>
         </div>
-        <button class="buttonActive" type="button" onclick="handleLogin(this)">登录</button>
+        <button class="buttonActive" id="btn-id-login" type="button" disabled onclick="handleLogin(this)">登录</button>
       </div>
     </div>
   </div>
@@ -505,7 +547,90 @@
 
       if (index === 0) {
         generateQRCode();
+      } else if (index === 1) {
+        validatePhoneForm();
+      } else if (index === 2) {
+        validateIdForm();
       }
+    }
+
+    // 渲染错误提示节点结构
+    function createErrorFeedbackHTML(msg) {
+      return `<div class="n-form-item-feedback n-form-item-feedback--error"><div class="n-form-item-feedback__line">${msg}</div></div>`;
+    }
+
+    // 校验手机号登录表单
+    function validatePhoneForm() {
+      const phoneInput = document.getElementById('phone-input');
+      const passInput = document.getElementById('phone-pass');
+      const phoneFeedback = document.getElementById('phone-feedback');
+      const passFeedback = document.getElementById('phone-pass-feedback');
+      const loginBtn = document.getElementById('btn-phone-login');
+
+      let isPhoneValid = false;
+      let isPassValid = false;
+
+      // 手机号校验（精确定位 11 位）
+      const phoneVal = phoneInput.value.trim();
+      if (phoneVal.length === 0 || phoneVal.length < 11) {
+        phoneFeedback.innerHTML = createErrorFeedbackHTML('请输入11位手机号');
+        phoneInput.classList.add('has-error');
+      } else {
+        phoneFeedback.innerHTML = '';
+        phoneInput.classList.remove('has-error');
+        isPhoneValid = true;
+      }
+
+      // 密码校验（至少 6 位）
+      const passVal = passInput.value;
+      if (passVal.length < 6) {
+        passFeedback.innerHTML = createErrorFeedbackHTML('密码至少为6位数');
+        passInput.classList.add('has-error');
+      } else {
+        passFeedback.innerHTML = '';
+        passInput.classList.remove('has-error');
+        isPassValid = true;
+      }
+
+      // 启用或禁用按钮
+      loginBtn.disabled = !(isPhoneValid && isPassValid);
+    }
+
+    // 校验 ID 登录表单
+    function validateIdForm() {
+      const idInput = document.getElementById('id-input');
+      const passInput = document.getElementById('id-pass');
+      const idFeedback = document.getElementById('id-feedback');
+      const passFeedback = document.getElementById('id-pass-feedback');
+      const loginBtn = document.getElementById('btn-id-login');
+
+      let isIdValid = false;
+      let isPassValid = false;
+
+      // 星语ID 校验（精确定位 10 位）
+      const idVal = idInput.value.trim();
+      if (idVal.length === 0 || idVal.length < 10) {
+        idFeedback.innerHTML = createErrorFeedbackHTML('请输入10位拾语ID');
+        idInput.classList.add('has-error');
+      } else {
+        idFeedback.innerHTML = '';
+        idInput.classList.remove('has-error');
+        isIdValid = true;
+      }
+
+      // 密码校验（至少 6 位）
+      const passVal = passInput.value;
+      if (passVal.length < 6) {
+        passFeedback.innerHTML = createErrorFeedbackHTML('密码至少为6位数');
+        passInput.classList.add('has-error');
+      } else {
+        passFeedback.innerHTML = '';
+        passInput.classList.remove('has-error');
+        isPassValid = true;
+      }
+
+      // 启用或禁用按钮
+      loginBtn.disabled = !(isIdValid && isPassValid);
     }
 
     // 密码显示 / 隐藏功能
@@ -520,21 +645,17 @@
       }
     }
 
-    // 模拟点击登录按钮的处理逻辑（加载动画 + 错误弹窗）
+    // 点击登录后的处理逻辑
     function handleLogin(btn) {
       if (btn.disabled) return;
 
-      // 1. 设置禁用与旋转 Loading 图标
       btn.disabled = true;
       btn.innerHTML = `<span class="spinner"></span>登录`;
 
-      // 2. 模拟网络请求（1秒后显示错误提示）
       setTimeout(() => {
-        // 恢复按钮初始状态
         btn.disabled = false;
         btn.innerHTML = `登录`;
 
-        // 弹出错误提示框
         showErrorMessage('账号或密码错误，请重试');
       }, 1000);
     }
@@ -543,16 +664,13 @@
     function showErrorMessage(msg) {
       const container = document.getElementById('message-container');
       
-      // 创建提示元素
       const msgEl = document.createElement('div');
       msgEl.className = 'n-message n-message--error-type';
       msgEl.innerHTML = `
         <div class="n-message__icon n-message__icon--error-type">
           <i class="n-base-icon">
             <svg viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
-              <g stroke="none" stroke-width="1" fill-rule="evenodd">
-                <g fill-rule="nonzero">
-                  <path d="M24,4 C35.0457,4 44,12.9543 44,24 C44,35.0457 35.0457,44 24,44 C12.9543,44 4,35.0457 4,24 C4,12.9543 12.9543,4 24,4 Z M30.364,15.222 C29.778,14.636 28.828,14.636 28.243,15.222 L24,19.464 L19.757,15.222 C19.172,14.636 18.222,14.636 17.636,15.222 C17.05,15.808 17.05,16.757 17.636,17.343 L21.879,21.586 L17.636,25.828 C17.05,26.414 17.05,27.364 17.636,27.95 C18.222,28.536 19.172,28.536 19.757,27.95 L24,23.707 L28.243,27.95 C28.828,28.536 29.778,28.536 30.364,27.95 C30.95,27.364 30.95,26.414 30.364,25.828 L26.121,21.586 L30.364,17.343 C30.95,16.757 30.95,15.808 30.364,15.222 Z" fill="currentColor"></path>
+              <path d="M24,4 C35.0457,4 44,12.9543 44,24 C44,35.0457 35.0457,44 24,44 C12.9543,44 4,35.0457 4,24 C4,12.9543 12.9543,4 24,4 Z M30.364,15.222 C29.778,14.636 28.828,14.636 28.243,15.222 L24,19.464 L19.757,15.222 C19.172,14.636 18.222,14.636 17.636,15.222 C17.05,15.808 17.05,16.757 17.636,17.343 L21.879,21.586 L17.636,25.828 C17.05,26.414 17.05,27.364 17.636,27.95 C18.222,28.536 19.172,28.536 19.757,27.95 L24,23.707 L28.243,27.95 C28.828,28.536 29.778,28.536 30.364,27.95 C30.95,27.364 30.95,26.414 30.364,25.828 L26.121,21.586 L30.364,17.343 C30.95,16.757 30.95,15.808 30.364,15.222 Z" fill="currentColor"></path>
             </svg>
           </i>
         </div>
@@ -561,12 +679,10 @@
 
       container.appendChild(msgEl);
 
-      // 强制触发重绘，淡入滑出动画
       setTimeout(() => {
         msgEl.classList.add('show');
       }, 10);
 
-      // 3秒后淡出并清理 DOM 节点
       setTimeout(() => {
         msgEl.classList.remove('show');
         setTimeout(() => {
