@@ -610,7 +610,7 @@
       // 星语ID 校验（精确定位 10 位）
       const idVal = idInput.value.trim();
       if (idVal.length === 0 || idVal.length < 10) {
-        idFeedback.innerHTML = createErrorFeedbackHTML('请输入10位拾语ID');
+        idFeedback.innerHTML = createErrorFeedbackHTML('请输入10位星语ID');
         idInput.classList.add('has-error');
       } else {
         idFeedback.innerHTML = '';
